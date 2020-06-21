@@ -109,6 +109,14 @@ function create_validators() {
   read -e
   BALANCE=$(curl -s -X GET localhost:8080/wallet/getbalance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
   echo -e "Balance of $BALANCE detected."
+  if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
+    echo -e "Insufficient balance, please confirm deposit is complete.  Please any key to continue when ready."
+    if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
+      echo -e "Cannot confirm sufficient balance.  Exiting script."
+      rm /etc/systemd/system/Olympus.service
+      killall ogen
+    fi
+  fi
 }
 
 #Start Script
