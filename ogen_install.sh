@@ -51,9 +51,9 @@ PrivateTmp=true
 ProtectSystem=full
 NoNewPrivileges=true
 PrivateDevices=true
-MemoryDenyWriteExecute=true
-StandardOutput=append:/var/log/ogen.log
-StandardError=append:/var/log/ogen_error.log
+#MemoryDenyWriteExecute=true
+#StandardOutput=append:/var/log/ogen.log
+#StandardError=append:/var/log/ogen_error.log
 [Install]
 WantedBy=multi-user.target
 EOF
