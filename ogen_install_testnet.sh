@@ -91,6 +91,18 @@ function create_wallet() {
   echo -e "Please make sure to remember or record your wallet name."
 }
 
+function create_validators() {
+  echo -e "Please enter the ${RED}number of validators${NC} you would like to start.  You may start up to 128 validators."
+  read -e NUM_VALIDATORS
+  if ! [[ "$NUM_VALIDATORS" =~ ^[0-9]+$ ]] && $NUM_VALIDATORS > 0 && $NUM_VALIDATORS < 129; then
+    echo "Number of validators must be between 1 and 128.  Please try again."
+    read -e NUM_VALIDATORS
+  fi
+  REQ_BALANCE=($NUM_VALIDATORS*100)
+  echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
+  read -e
+}
+
 #Start Script
 clear
 
@@ -99,3 +111,5 @@ install_node
 reset_node
 configure_systemd
 create_wallet
+create_validators
+
