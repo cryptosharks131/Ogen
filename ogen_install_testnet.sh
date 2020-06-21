@@ -107,7 +107,7 @@ function create_validators() {
   REQ_BALANCE=`expr $NUM_VALIDATORS \* 100`
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
   read -e
-  BALANCE=$(curl -s -X GET localhost:8080/wallet/getbalance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
+  BALANCE=$(curl -s -X GET localhost:8080/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
   echo -e "Balance of $BALANCE detected."
   if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
     echo -e "Insufficient balance, please confirm deposit is complete.  Please any key to continue when ready."
