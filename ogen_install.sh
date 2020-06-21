@@ -85,7 +85,7 @@ function create_wallet() {
   curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/createwallet
   curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/openwallet
   echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
-  echo -e "Please make sure to remember or record your wallet name.
+  echo -e "Please make sure to remember or record your wallet name."
 }
 
 #Start Script
