@@ -35,10 +35,8 @@ function install_node() {
 }
 
 function start_node() {
-  screen -S Ogen
   ogen reset
   ogen --enablemining=true
-  screen -s OgenCli
 }
 
 function start_validator() {
