@@ -82,9 +82,9 @@ function reset_node() {
 function create_wallet() {
   echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
   read -e WALLET_NAME
-  curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/createwallet
+  curl -X GET localhost:8080/wallet/create/$WALLET_NAME
   echo -e ""
-  curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/openwallet
+  curl -X GET localhost:8080/wallet/open/$WALLET_NAME
   echo -e ""
   echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
   echo -e "Please make sure to remember or record your wallet name."
