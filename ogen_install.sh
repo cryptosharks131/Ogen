@@ -37,7 +37,6 @@ function install_node() {
 function start_node() {
   ogen reset
   ogen --enablemining=true
-  sleep 10
 }
 
 #Start Script
@@ -45,3 +44,4 @@ clear
 
 initialize
 install_node
+start_node
