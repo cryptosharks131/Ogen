@@ -125,7 +125,7 @@ function create_validators() {
       exit
     fi
   fi
-  VAL_KEYS=$(curl -s -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS | grep -o '"keys":"[^"]*' | cut -d'"' -f4)
+  VAL_KEYS=$(curl -s -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS)
 #   curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
   echo -e ""
   VAL_SUCCESS=$(curl -s -X POST localhost:8080/wallet/startvalidatorbulk)
