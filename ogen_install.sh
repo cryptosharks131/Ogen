@@ -39,10 +39,6 @@ function start_node() {
   ogen --enablemining=true --rpc_wallet --rpc_proxy
 }
 
-#function start_validator() {
-#  
-#}
-
 #Start Script
 clear
 
