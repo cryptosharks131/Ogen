@@ -1,6 +1,7 @@
 TMP_FOLDER=$(mktemp -d)
 COIN_REPO='https://public.oly.tech/olympus/release/v0.0.1/ogen-0.0.1-linux-amd64.tar.gz'
 COIN_NAME='Olympus'
+COIN_DAEMON='ogen'
 RED='\033[0;31m'
 NC='\033[0m'
 
