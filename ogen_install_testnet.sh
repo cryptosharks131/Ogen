@@ -120,7 +120,9 @@ function create_validators() {
     fi
   fi
   curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
+  echo -e ""
   curl -X POST localhost:8080/wallet/startvalidatorbulk
+  echo -e ""
   echo -e "Created $NUM_VALIDATORS validators."
   echo -e "Script complete."
 }
