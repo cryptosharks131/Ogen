@@ -98,7 +98,7 @@ function create_validators() {
     echo "Number of validators must be between 1 and 128.  Please try again."
     read -e NUM_VALIDATORS
     if ! [ $NUM_VALIDATORS =~ ^-?[0-9]+$ ] && ! [ "$NUM_VALIDATORS" -ge 1 ] && ! [ "$NUM_VALIDATORS" -le 128 ]; then
-      echo -e "Failed to get number of validators.  Script exiting.
+      echo -e "Failed to get number of validators.  Script exiting."
       rm /etc/systemd/system/Olympus.service
       killall ogen
     fi
