@@ -14,6 +14,7 @@ function compile_error() {
 }
 
 function initialize() {
+  killall ogen
   if [ ! -d "$HOME/.config/" ]; then
     mkdir $HOME/.config/
   fi
@@ -75,7 +76,7 @@ EOF
 
 function start_node() {
   ogen reset
-  ogen --enablemining=true --rpc_wallet --rpc_proxy
+  #ogen --enablemining=true --rpc_wallet --rpc_proxy
 }
 
 #Start Script
