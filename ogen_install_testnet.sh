@@ -94,9 +94,14 @@ function create_wallet() {
 function create_validators() {
   echo -e "Please enter the ${RED}number of validators${NC} you would like to start.  You may start up to 128 validators."
   read -e NUM_VALIDATORS
-  if (($NUM_VALIDATORS >= 1 && $NUM_VALIDATORS <= 128)); then
+  if ! [ $NUM_VALIDATORS =~ ^-?[0-9]+$ ] && ! [ "$NUM_VALIDATORS" -ge 1 ] && ! [ "$NUM_VALIDATORS" -le 128 ];; then
     echo "Number of validators must be between 1 and 128.  Please try again."
     read -e NUM_VALIDATORS
+    if ! [ $NUM_VALIDATORS =~ ^-?[0-9]+$ ] && ! [ "$NUM_VALIDATORS" -ge 1 ] && ! [ "$NUM_VALIDATORS" -le 128 ];; then
+      echo -e "Failed to get number of validators.  Script exiting.
+      rm /etc/systemd/system/Olympus.service
+      killall ogen
+    fi
   fi
   REQ_BALANCE=`expr $NUM_VALIDATORS \* 100`
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
