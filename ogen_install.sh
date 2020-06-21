@@ -76,7 +76,7 @@ EOF
 }
 
 function start_node() {
-  ogen reset
+  ogen reset >/dev/null 2>&1
   #ogen --enablemining=true --rpc_wallet --rpc_proxy
 }
 
