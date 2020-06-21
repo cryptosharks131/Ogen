@@ -41,8 +41,9 @@ function start_node() {
   screen -S OgenCli
 }
 
-function start_validator() {
-}
+#function start_validator() {
+#  
+#}
 
 #Start Script
 clear
