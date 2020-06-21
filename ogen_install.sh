@@ -36,7 +36,7 @@ function install_node() {
 
 function start_node() {
   ogen reset
-  ogen --enablemining=true
+  ogen --enablemining=true --rpc_wallet
 }
 
 function start_validator() {
