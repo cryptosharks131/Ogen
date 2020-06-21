@@ -98,7 +98,7 @@ function create_validators() {
     echo "Number of validators must be between 1 and 128.  Please try again."
     read -e NUM_VALIDATORS
   fi
-  REQ_BALANCE=($NUM_VALIDATORS*100)
+  REQ_BALANCE=(($NUM_VALIDATORS)*100)
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
   read -e
 }
