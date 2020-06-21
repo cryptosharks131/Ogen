@@ -111,6 +111,7 @@ function create_validators() {
     fi
   fi
   REQ_BALANCE=`expr $NUM_VALIDATORS \* 100`
+  echo -e ""
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
   read -e
   BALANCE=$(curl -s -X GET localhost:8080/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
@@ -126,10 +127,8 @@ function create_validators() {
     fi
   fi
   VAL_KEYS=$(curl -s -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS)
-#   curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
   echo -e ""
   VAL_SUCCESS=$(curl -s -X POST localhost:8080/wallet/startvalidatorbulk)
-#   curl -X POST localhost:8080/wallet/startvalidatorbulk
   echo -e ""
   if ! [ "$VAL_SUCCESS" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot start validators.  Exiting script."
