@@ -75,9 +75,17 @@ EOF
   fi
 }
 
-function start_node() {
+function reset_node() {
   ogen reset >/dev/null 2>&1
-  #ogen --enablemining=true --rpc_wallet --rpc_proxy
+}
+
+function create_wallet() {
+  echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
+  read -e WALLET_NAME
+  curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/createwallet
+  curl -X POST --data '{"name":"$WALLET_NAME"}' localhost:8080/wallet/openwallet
+  echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
+  echo -e "Please make sure to remember or record your wallet name.
 }
 
 #Start Script
@@ -85,5 +93,6 @@ clear
 
 initialize
 install_node
-start_node
+reset_node
 configure_systemd
+create_wallet
