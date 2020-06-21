@@ -94,7 +94,7 @@ function create_wallet() {
 function create_validators() {
   echo -e "Please enter the ${RED}number of validators${NC} you would like to start.  You may start up to 128 validators."
   read -e NUM_VALIDATORS
-  if $NUM_VALIDATORS > 0 && $NUM_VALIDATORS < 129; then
+  if (($NUM_VALIDATORS >= 1 && $NUM_VALIDATORS <= 128)); then
     echo "Number of validators must be between 1 and 128.  Please try again."
     read -e NUM_VALIDATORS
   fi
