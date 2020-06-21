@@ -83,4 +83,5 @@ clear
 
 initialize
 install_node
+start_node
 configure_systemd
