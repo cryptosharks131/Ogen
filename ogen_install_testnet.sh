@@ -83,12 +83,9 @@ function create_wallet() {
   echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
   read -e WALLET_NAME
   ADDRESS=$(curl -s -X GET localhost:8080/wallet/create/$WALLET_NAME | grep -o '"public":"[^"]*' | cut -d'"' -f4)
-  #curl -X GET localhost:8080/wallet/create/$WALLET_NAME
-  #echo -e ""
-  #curl -X GET localhost:8080/wallet/open/$WALLET_NAME
   WALLET_OPEN=$(curl -s -X GET localhost:8080/wallet/open/$WALLET_NAME)
   echo -e ""
-  if ! [ "$WALLET_OPEN" == "{"success":true}" ] >/dev/null 2>&1; then
+  if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot open wallet.  Exiting script."
     rm /etc/systemd/system/Olympus.service
     killall ogen
