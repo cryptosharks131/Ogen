@@ -118,6 +118,10 @@ function create_validators() {
       killall ogen
     fi
   fi
+  curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
+  curl -X POST localhost:8080/wallet/startvalidatorbulk
+  echo -e "Created $NUM_VALIDATORS validators."
+  echo -e "Script complete."
 }
 
 #Start Script
