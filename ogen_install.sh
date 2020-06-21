@@ -34,6 +34,45 @@ function install_node() {
   clear
 }
 
+function configure_systemd() {
+  cat << EOF > /etc/systemd/system/$COIN_NAME.service
+[Unit]
+Description=Ogen Daemon
+After=network.target
+[Service]
+ExecStart=/usr/local/bin/ogen --enablemining=true --rpc_wallet --rpc_proxy
+Type=simple
+User=root
+Restart=on-failure
+TimeoutStopSec=300
+WorkingDirectory=/root/.config/ogen
+LimitNOFILE=500000
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+PrivateDevices=true
+MemoryDenyWriteExecute=true
+StandardOutput=append:/var/log/ogen.log
+StandardError=append:/var/log/ogen_error.log
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  systemctl daemon-reload
+  sleep 3
+  
+  systemctl start $COIN_NAME.service
+  systemctl enable $COIN_NAME.service >/dev/null 2>&1
+
+  if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
+    echo -e "${RED}$COIN_NAME is not running${NC}, please investigate. You should start by running the following commands as root:"
+    echo -e "${GREEN}systemctl start $COIN_NAME.service"
+    echo -e "systemctl status $COIN_NAME.service"
+    echo -e "less /var/log/syslog${NC}"
+    exit 1
+  fi
+}
+
 function start_node() {
   ogen reset
   ogen --enablemining=true --rpc_wallet --rpc_proxy
@@ -44,4 +83,4 @@ clear
 
 initialize
 install_node
-start_node
+configure_systemd
