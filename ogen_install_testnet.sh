@@ -125,11 +125,21 @@ function create_validators() {
       exit
     fi
   fi
-  curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
+  VAL_KEYS=$(curl -s -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS | grep -o '"keys":"[^"]*' | cut -d'"' -f4)
+#   curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
   echo -e ""
-  curl -X POST localhost:8080/wallet/startvalidatorbulk
+  VAL_SUCCESS=$(curl -s -X POST localhost:8080/wallet/startvalidatorbulk)
+#   curl -X POST localhost:8080/wallet/startvalidatorbulk
   echo -e ""
+  if ! [ "$VAL_SUCCESS" == '{"success":true}' ] >/dev/null 2>&1; then
+    echo -e "Cannot start validators.  Exiting script."
+    rm /etc/systemd/system/Olympus.service
+    killall ogen
+    exit
+  fi
   echo -e "Created $NUM_VALIDATORS validators."
+  echo -e "Your validators keys are below:"
+  echo -e $VAL_KEYS
   echo -e "Script complete."
 }
 
