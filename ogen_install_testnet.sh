@@ -116,6 +116,7 @@ function create_validators() {
       echo -e "Cannot confirm sufficient balance.  Exiting script."
       rm /etc/systemd/system/Olympus.service
       killall ogen
+      exit
     fi
   fi
   curl -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS
