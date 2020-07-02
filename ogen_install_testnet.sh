@@ -82,8 +82,8 @@ function reset_node() {
 function create_wallet() {
   echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
   read -e WALLET_NAME
-  ADDRESS=$(curl -s -X GET localhost:8080/wallet/create/$WALLET_NAME | grep -o '"public":"[^"]*' | cut -d'"' -f4)
-  WALLET_OPEN=$(curl -s -X GET localhost:8080/wallet/open/$WALLET_NAME)
+  ADDRESS=$(curl -s -X GET https://localhost:8080/wallet/create/$WALLET_NAME | grep -o '"public":"[^"]*' | cut -d'"' -f4)
+  WALLET_OPEN=$(curl -s -X GET https://localhost:8080/wallet/open/$WALLET_NAME)
   echo -e ""
   if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot open wallet.  Exiting script."
@@ -114,7 +114,7 @@ function create_validators() {
   echo -e ""
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
   read -e
-  BALANCE=$(curl -s -X GET localhost:8080/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
+  BALANCE=$(curl -s -X GET https://localhost:8080/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
   echo -e "Balance of $BALANCE detected."
   if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
     echo -e "Insufficient balance, please confirm deposit is complete.  Please any key to continue when ready."
@@ -126,9 +126,9 @@ function create_validators() {
       exit
     fi
   fi
-  VAL_KEYS=$(curl -s -X GET localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS)
+  VAL_KEYS=$(curl -s -X GET https://localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS)
   echo -e ""
-  VAL_SUCCESS=$(curl -s -X POST --data $VAL_KEYS localhost:8080/wallet/startvalidatorbulk)
+  VAL_SUCCESS=$(curl -s -X POST --data $VAL_KEYS https://localhost:8080/wallet/startvalidatorbulk)
   echo -e ""
   if ! [ "$VAL_SUCCESS" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot start validators.  Exiting script."
