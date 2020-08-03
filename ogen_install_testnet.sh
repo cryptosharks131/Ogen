@@ -129,7 +129,7 @@ function create_validators() {
       exit
     fi
   fi
-  VAL_KEYS=$(curl -s -k -X GET https://localhost:8080/utils/genvalidatorkey/$NUM_VALIDATORS)
+  VAL_KEYS=$(curl -s -k -X POST --data '{"name":'$NUM_VALIDATORS',"password":"'$WALLET_PASSWORD'"}' https://localhost:8080/utils/genvalidatorkey)
   echo -e ""
   VAL_SUCCESS=$(curl -s -k -X POST --data $VAL_KEYS https://localhost:8080/wallet/startvalidatorbulk)
   echo -e ""
