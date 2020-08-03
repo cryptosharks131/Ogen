@@ -84,6 +84,7 @@ function create_wallet() {
   read -e WALLET_NAME
   echo -e "Enter a password for your ${RED}Olympus${NC} wallet:"
   read -e WALLET_PASSWORD
+  clear
   ADDRESS=$(curl -s -k -X POST --data '{"name":"$WALLET_NAME","password":"$WALLET_PASSWORD"}' https://localhost:8080/wallet/create | grep -o '"public":"[^"]*' | cut -d'"' -f4)
   WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"$WALLET_NAME","password":"$WALLET_PASSWORD"}' https://localhost:8080/wallet/open)
   echo -e ""
