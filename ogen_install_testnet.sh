@@ -95,7 +95,7 @@ function create_wallet() {
     exit
   fi
   echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
-  echo -e "Please make sure to remember or record your wallet name."
+  echo -e "Please make sure to remember or record your wallet name and password!"
   echo -e "Your wallet's address is: $ADDRESS"
   echo -e ""
 }
