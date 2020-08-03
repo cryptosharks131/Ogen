@@ -82,8 +82,10 @@ function reset_node() {
 function create_wallet() {
   echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
   read -e WALLET_NAME
-  ADDRESS=$(curl -s -k -X GET https://localhost:8080/wallet/create/$WALLET_NAME | grep -o '"public":"[^"]*' | cut -d'"' -f4)
-  WALLET_OPEN=$(curl -s -k -X GET https://localhost:8080/wallet/open/$WALLET_NAME)
+  echo -e "Enter a password for your ${RED}Olympus${NC} wallet:"
+  read -e WALLET_PASSWORD
+  ADDRESS=$(curl -s -k -X POST --data '{"name":"$WALLET_NAME","password":"$WALLET_PASSWORD"}' https://localhost:8080/wallet/create | grep -o '"public":"[^"]*' | cut -d'"' -f4)
+  WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"$WALLET_NAME","password":"$WALLET_PASSWORD"}' https://localhost:8080/wallet/open)
   echo -e ""
   if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot open wallet.  Exiting script."
