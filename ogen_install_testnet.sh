@@ -30,6 +30,7 @@ function install_node() {
   tar xvf $COIN_ZIP --strip 2 >/dev/null 2>&1
   compile_error
   cp ogen /usr/local/bin
+  cp ogen-cli /usr/local/bin
   compile_error
   cd - >/dev/null 2>&1
   rm -rf $TMP_FOLDER >/dev/null 2>&1
