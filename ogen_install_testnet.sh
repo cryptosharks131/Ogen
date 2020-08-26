@@ -81,19 +81,23 @@ function reset_node() {
 }
 
 function create_wallet() {
-  echo -e "Enter a name for your ${RED}Olympus${NC} wallet:"
+  echo -e "Enter the name of your ${RED}Olympus${NC} wallet to be opened or created:"
   read -e WALLET_NAME
-  echo -e "Enter a password for your ${RED}Olympus${NC} wallet:"
+  echo -e "Enter the password for your ${RED}Olympus${NC} wallet to be opened or created:"
   read -e WALLET_PASSWORD
   clear
   ADDRESS=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8080/wallet/create | grep -o '"public":"[^"]*' | cut -d'"' -f4)
   WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8080/wallet/open)
   echo -e ""
   if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
-    echo -e "Cannot open wallet.  Exiting script."
+    echo -e "Error while opening wallet.  Exiting script."
     rm /etc/systemd/system/Olympus.service
     killall ogen
     exit
+  fi
+  if [ "$ADDRESS" == '' ] >/dev/null 2>&1; then
+    echo -e "Wallet already exists."
+    ADDRESS=$(curl -s -k -X GET https://localhost:8080/wallet/account | grep -o '"public":"[^"]*' | cut -d'"' -f4)
   fi
   echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
   echo -e "Please make sure to remember or record your wallet name and password!"
