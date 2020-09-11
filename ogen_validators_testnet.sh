@@ -25,15 +25,13 @@ function create_wallet() {
   echo -e ""
   if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Error while opening wallet.  Exiting script."
-    rm /etc/systemd/system/Olympus.service
-    killall ogen
     exit
   fi
   if [ "$ADDRESS" == '' ] >/dev/null 2>&1; then
     echo -e "Wallet already exists."
     ADDRESS=$(curl -s -k -X GET https://localhost:8080/wallet/account | grep -o '"public":"[^"]*' | cut -d'"' -f4)
   fi
-  echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
+  echo -e "Created and/or opened wallet with name: ${RED}$WALLET_NAME${NC}"
   echo -e "Please make sure to remember or record your wallet name and password!"
   echo -e "Your wallet's address is: $ADDRESS"
   echo -e ""
@@ -47,8 +45,6 @@ function create_validators() {
     read -e NUM_VALIDATORS
     if ! [ "$NUM_VALIDATORS" -ge 1 ] >/dev/null 2>&1 || ! [ "$NUM_VALIDATORS" -le 128 ] >/dev/null 2>&1; then
       echo -e "Failed to get number of validators.  Script exiting."
-      rm /etc/systemd/system/Olympus.service
-      killall ogen
       exit
     fi
   fi
@@ -63,8 +59,6 @@ function create_validators() {
     read -e
     if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
       echo -e "Cannot confirm sufficient balance.  Exiting script."
-      rm /etc/systemd/system/Olympus.service
-      killall ogen
       exit
     fi
   fi
@@ -74,8 +68,6 @@ function create_validators() {
   echo -e ""
   if ! [ "$VAL_SUCCESS" == '{"success":true}' ] >/dev/null 2>&1; then
     echo -e "Cannot start validators.  Exiting script."
-    rm /etc/systemd/system/Olympus.service
-    killall ogen
     exit
   fi
   echo -e "Created $NUM_VALIDATORS validators."
