@@ -1,5 +1,5 @@
 TMP_FOLDER=$(mktemp -d)
-COIN_REPO='https://public.oly.tech/olympus/ogen-release/ogen-0.0.1-linux-amd64.tar.gz'
+COIN_REPO='https://github.com/olympus-protocol/ogen/releases/download/v0.1.2-alpha.8/ogen-0.1.2-alpha.8-linux-amd64.tar.gz'
 COIN_NAME='Olympus'
 COIN_DAEMON='ogen'
 RED='\033[0;31m'
@@ -20,16 +20,18 @@ function create_wallet() {
   echo -e "Enter the password for your ${RED}Olympus${NC} wallet to be opened or created:"
   read -e WALLET_PASSWORD
   clear
-  ADDRESS=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8080/wallet/create | grep -o '"public":"[^"]*' | cut -d'"' -f4)
-  WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8080/wallet/open)
+  GET_ADDRESS=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8081/wallet/create)
+  ADDRESS=$($GET_ADDRESS | grep -o '"account":"[^"]*' | cut -d'"' -f4)
+  MNEMONIC=$($GET_ADDRESS | grep -o '"mnemonic":"[^"]*' | cut -d'"' -f4)
+  WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8081/wallet/open)
   echo -e ""
-  if ! [ "$WALLET_OPEN" == '{"success":true}' ] >/dev/null 2>&1; then
+  if ! [[ "$WALLET_OPEN" == '{"success":true*' ]] >/dev/null 2>&1; then
     echo -e "Error while opening wallet.  Exiting script."
     exit
   fi
   if [ "$ADDRESS" == '' ] >/dev/null 2>&1; then
     echo -e "Wallet already exists."
-    ADDRESS=$(curl -s -k -X GET https://localhost:8080/wallet/account | grep -o '"public":"[^"]*' | cut -d'"' -f4)
+    ADDRESS=$(curl -s -k -X GET https://localhost:8081/wallet/account | grep -o '"public":"[^"]*' | cut -d'"' -f4)
   fi
   echo -e "Created and/or opened wallet with name: ${RED}$WALLET_NAME${NC}"
   echo -e "Please make sure to remember or record your wallet name and password!"
@@ -52,7 +54,7 @@ function create_validators() {
   echo -e ""
   echo -e "A ${RED}balance of $REQ_BALANCE${NC} is required to start your validators. Press any key to continue after deposit is made."
   read -e
-  BALANCE=$(curl -s -k -X GET https://localhost:8080/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
+  BALANCE=$(curl -s -k -X GET https://localhost:8081/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
   echo -e "Balance of $BALANCE detected."
   if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
     echo -e "Insufficient balance, please confirm deposit is complete.  Please any key to continue when ready."
@@ -62,11 +64,11 @@ function create_validators() {
       exit
     fi
   fi
-  VAL_KEYS=$(curl -s -k -X POST --data '{"keys":'$NUM_VALIDATORS'}' https://localhost:8080/utils/genvalidatorkey)
+  VAL_KEYS=$(curl -s -k -X POST --data '{"keys":'$NUM_VALIDATORS'}' https://localhost:8081/utils/genvalidatorkey)
   echo -e ""
-  VAL_SUCCESS=$(curl -s -k -X POST --data $VAL_KEYS https://localhost:8080/wallet/startvalidatorbulk)
+  VAL_SUCCESS=$(curl -s -k -X POST --data $VAL_KEYS https://localhost:8081/wallet/startvalidatorbulk)
   echo -e ""
-  if ! [ "$VAL_SUCCESS" == '{"success":true}' ] >/dev/null 2>&1; then
+  if ! [[ "$VAL_SUCCESS" == '{"success":true*' ]] >/dev/null 2>&1; then
     echo -e "Cannot start validators.  Exiting script."
     exit
   fi
