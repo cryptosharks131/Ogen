@@ -21,11 +21,11 @@ function create_wallet() {
   read -e WALLET_PASSWORD
   clear
   GET_ADDRESS=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8081/wallet/create)
-  ADDRESS=$($GET_ADDRESS | grep -o '"account":"[^"]*' | cut -d'"' -f4)
-  MNEMONIC=$($GET_ADDRESS | grep -o '"mnemonic":"[^"]*' | cut -d'"' -f4)
+  ADDRESS=$(echo $GET_ADDRESS | grep -o '"account":"[^"]*' | cut -d'"' -f4)
+  MNEMONIC=$(echo $GET_ADDRESS | grep -o '"mnemonic":"[^"]*' | cut -d'"' -f4)
   WALLET_OPEN=$(curl -s -k -X POST --data '{"name":"'$WALLET_NAME'","password":"'$WALLET_PASSWORD'"}' https://localhost:8081/wallet/open)
   echo -e ""
-  if ! [[ "$WALLET_OPEN" == '{"success":true*' ]] >/dev/null 2>&1; then
+  if ! [[ "$WALLET_OPEN" == '{"success":true'* ]] >/dev/null 2>&1; then
     echo -e "Error while opening wallet.  Exiting script."
     exit
   fi
