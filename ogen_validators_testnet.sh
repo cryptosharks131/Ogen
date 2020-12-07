@@ -32,15 +32,19 @@ function create_wallet() {
   if [ "$ADDRESS" == '' ] >/dev/null 2>&1; then
     echo -e "Wallet already exists."
     ADDRESS=$(curl -s -k -X GET https://localhost:8081/wallet/account | grep -o '"public":"[^"]*' | cut -d'"' -f4)
+    echo -e "Opened wallet with name: ${RED}$WALLET_NAME${NC}"
+    echo -e "Your wallet's address is: $ADDRESS"
+    echo -e ""
+  else
+    echo -e "Created and opened wallet with name: ${RED}$WALLET_NAME${NC}"
+    echo -e "Please make sure to remember or record your wallet name and password!"
+    echo -e "Your wallet's address is: $ADDRESS"
+    echo -e "Your wallet's mnemonic is: $MNEMONIC"
+    echo -e "This information is being saved to the following directory, please backup and properly secure this file."
+    echo -e "~/.config/ogen/$ADDRESS.txt"
+    echo "$ADDRESS\n$MNEMONIC" >> ~/.config/ogen/$ADDRESS.txt
+    echo -e ""
   fi
-  echo -e "Created and/or opened wallet with name: ${RED}$WALLET_NAME${NC}"
-  echo -e "Please make sure to remember or record your wallet name and password!"
-  echo -e "Your wallet's address is: $ADDRESS"
-  echo -e "Your wallet's mnemonic is: $MNEMONIC"
-  echo -e "This information is being saved to the following directory, please backup and properly secure this file."
-  echo -e "~/.config/ogen/$ADDRESS.txt"
-  echo "$ADDRESS\n$MNEMONIC" >> ~/.config/ogen/$ADDRESS.txt
-  echo -e ""
 }
 
 function create_validators() {
