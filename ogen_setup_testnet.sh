@@ -14,6 +14,19 @@ function compile_error() {
   fi
 }
 
+function add_swap() {
+  sudo fallocate -l 2G /swapfile >/dev/null 2>&1
+  sudo chmod 600 /swapfile >/dev/null 2>&1
+  sudo mkswap /swapfile >/dev/null 2>&1
+  sudo swapon /swapfile >/dev/null 2>&1
+  cat << EOF >> /etc/sysctl.conf
+vm.swappiness=10
+EOF
+  cat << EOF >> /etc/fstab
+/swapfile none swap sw 0 0
+EOF
+}
+
 function initialize() {
   killall ogen >/dev/null 2>&1
   if [ ! -d "$HOME/.config/" ]; then
@@ -96,6 +109,7 @@ function important_information() {
 #Start Script
 clear
 
+add_swap
 initialize
 install_node
 reset_node
