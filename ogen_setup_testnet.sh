@@ -82,6 +82,17 @@ function reset_node() {
   ogen reset >/dev/null 2>&1
 }
 
+function important_information() {
+ echo
+ echo -e "================================================================================================================================"
+ echo -e "$COIN_NAME is up and running!"
+ echo -e "Configuration file is: ${RED}~/.config/ogen/${NC}"
+ echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
+ echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
+ echo -e "Please check ${RED}$COIN_NAME${NC} is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
+ echo -e "================================================================================================================================"
+}
+
 #Start Script
 clear
 
@@ -89,3 +100,4 @@ initialize
 install_node
 reset_node
 configure_systemd
+important_information
