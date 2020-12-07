@@ -76,7 +76,7 @@ function create_validators() {
   echo -e ""
   VAL_SUCCESS=$(curl -s -k -X POST --data $VAL_KEYS https://localhost:8081/wallet/startvalidatorbulk)
   echo -e ""
-  if ! [[ "$VAL_SUCCESS" == '{"success":true*' ]] >/dev/null 2>&1; then
+  if ! [[ "$VAL_SUCCESS" == '{"success":true'* ]] >/dev/null 2>&1; then
     echo -e "Cannot start validators.  Exiting script."
     exit
   fi
