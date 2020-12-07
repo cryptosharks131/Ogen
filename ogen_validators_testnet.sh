@@ -36,6 +36,10 @@ function create_wallet() {
   echo -e "Created and/or opened wallet with name: ${RED}$WALLET_NAME${NC}"
   echo -e "Please make sure to remember or record your wallet name and password!"
   echo -e "Your wallet's address is: $ADDRESS"
+  echo -e "Your wallet's mnemonic is: $MNEMONIC"
+  echo -e "This information is being saved to the following directory, please backup and properly secure this file."
+  echo -e "~/.config/ogen/$ADDRESS.txt"
+  echo "$ADDRESS\n$MNEMONIC" >> ~/.config/ogen/$ADDRESS.txt
   echo -e ""
 }
 
