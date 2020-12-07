@@ -45,7 +45,7 @@ function configure_systemd() {
 Description=Ogen Daemon
 After=network.target
 [Service]
-ExecStart=/usr/local/bin/ogen --rpc_wallet --rpc_proxy
+ExecStart=/usr/local/bin/ogen --rpc_wallet --rpc_proxy --dashbboard
 Type=simple
 User=root
 Restart=on-failure
