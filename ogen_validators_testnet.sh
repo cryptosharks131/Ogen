@@ -64,10 +64,10 @@ function create_validators() {
   read -e
   BALANCE=$(curl -s -k -X GET https://localhost:8081/wallet/balance | grep -o '"confirmed":"[^"]*' | cut -d'"' -f4)
   echo -e "Balance of $BALANCE detected."
-  if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
+  if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1 || [ "$BALANCE" == "0.00000000" ] >/dev/null 2>&1; then
     echo -e "Insufficient balance, please confirm deposit is complete.  Please any key to continue when ready."
     read -e
-    if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1; then
+    if [ "$BALANCE" -lt $REQ_BALANCE ] >/dev/null 2>&1 || [ "$BALANCE" == "0.00000000" ] >/dev/null 2>&1; then
       echo -e "Cannot confirm sufficient balance.  Exiting script."
       exit
     fi
