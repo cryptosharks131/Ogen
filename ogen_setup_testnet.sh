@@ -27,6 +27,19 @@ EOF
 EOF
 }
 
+function enable_firewall() {
+  echo -e "Installing and setting up firewall to allow ingress on port ${GREEN}24126 AND 808${NC}"
+  ufw allow 24126/tcp comment "$COIN_NAME port" >/dev/null
+  ufw allow 8080/tcp comment "$COIN_NAME Dashboard port" >/dev/null
+  ufw allow ssh comment "SSH" >/dev/null 2>&1
+  ufw limit ssh/tcp >/dev/null 2>&1
+  ufw default allow outgoing >/dev/null 2>&1
+  echo "y" | ufw enable >/dev/null 2>&1
+  apt-get -y install fail2ban >/dev/null 2>&1
+  systemctl enable fail2ban >/dev/null 2>&1
+  systemctl start fail2ban >/dev/null 2>&1
+}
+
 function initialize() {
   killall ogen >/dev/null 2>&1
   if [ ! -d "$HOME/.config/" ]; then
@@ -103,6 +116,8 @@ function important_information() {
  echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
  echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
  echo -e "Please check ${RED}$COIN_NAME${NC} is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
+ echo -e ""
+ echo -e "You may view the dasahboard for this node by browsing the IP of your node on port 8080 in your web explorer. Eg. http://<vps_ip>:8080/"
  echo -e "================================================================================================================================"
 }
 
@@ -114,4 +129,5 @@ initialize
 install_node
 reset_node
 configure_systemd
+enable_firewall
 important_information
