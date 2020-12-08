@@ -42,8 +42,8 @@ function create_wallet() {
     echo -e "Your wallet's mnemonic is: $MNEMONIC"
     echo -e "This information is being saved to the following directory, please backup and properly secure this file."
     echo -e "${RED}~/.config/ogen/$ADDRESS.txt${NC}"
-    echo "$ADDRESS" > ~/.config/ogen/$ADDRESS.txt
-    echo "$MNEMONIC" >> ~/.config/ogen/$ADDRESS.txt
+    echo "$ADDRESS" > ~/.config/ogen/$WALLET_NAME.txt
+    echo "$MNEMONIC" >> ~/.config/ogen/$WALLET_NAME.txt
     echo -e ""
   fi
 }
