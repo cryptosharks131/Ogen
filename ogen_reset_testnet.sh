@@ -15,6 +15,7 @@ function compile_error() {
 }
 
 function reset_node() {
+  systemctl disable $COIN_NAME
   systemctl stop $COIN_NAME
   killall ogen >/dev/null 2>&1
   if [ -d "$HOME/.config/ogen/" ]; then
@@ -52,6 +53,7 @@ EOF
   systemctl daemon-reload
   sleep 3
   
+  ogen reset
   systemctl start $COIN_NAME.service
   systemctl enable $COIN_NAME.service >/dev/null 2>&1
 
