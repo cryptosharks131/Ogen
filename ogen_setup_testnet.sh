@@ -1,5 +1,5 @@
 TMP_FOLDER=$(mktemp -d)
-COIN_REPO='https://github.com/olympus-protocol/ogen/releases/download/v0.1.3-alpha.9/ogen-0.1.3-alpha.9-linux-amd64.tar.gz'
+COIN_REPO='https://github.com/olympus-protocol/ogen/releases/download/v0.2.0-alpha.1/ogen-0.2.0-alpha.1-linux-amd64.tar.gz'
 COIN_NAME='Olympus'
 COIN_DAEMON='ogen'
 RED='\033[0;31m'
