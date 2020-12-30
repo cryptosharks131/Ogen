@@ -15,7 +15,7 @@ function compile_error() {
 }
 
 function reset_node() {
-  systemctl disable $COIN_NAME
+  systemctl disable $COIN_NAME >/dev/null 2>&1
   systemctl stop $COIN_NAME
   killall ogen >/dev/null 2>&1
   if [ -d "$HOME/.config/ogen/" ]; then
