@@ -14,10 +14,10 @@ function compile_error() {
   fi
 }
 
-function reset() {
+function reset_node() {
   killall ogen >/dev/null 2>&1
-  if [ ! -d "$HOME/.config/" ]; then
-    mkdir $HOME/.config/
+  if [ -d "$HOME/.config/ogen/" ]; then
+    rm -r $HOME/.config/ogen/
   fi
   if [ -d "/etc/systemd/system/$COIN_NAME.service" ]; then
     rm /etc/systemd/system/$COIN_NAME.service
@@ -78,10 +78,6 @@ function install_node() {
   clear
 }
 
-function reset_node() {
-  ogen reset >/dev/null 2>&1
-}
-
 function important_information() {
  echo
  echo -e "================================================================================================================================"
@@ -98,8 +94,7 @@ function important_information() {
 #Start Script
 clear
 
-reset
-install_node
 reset_node
+install_node
 configure_systemd
 important_information
