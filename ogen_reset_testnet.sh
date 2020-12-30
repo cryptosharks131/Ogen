@@ -15,6 +15,7 @@ function compile_error() {
 }
 
 function reset_node() {
+  systemctl stop $COIN_NAME
   killall ogen >/dev/null 2>&1
   if [ -d "$HOME/.config/ogen/" ]; then
     rm -r $HOME/.config/ogen/
